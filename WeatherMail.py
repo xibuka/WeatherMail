@@ -1,3 +1,4 @@
+#!/root/.pyenv/shims/python
 #-*- coding: UTF-8 -*-
 
 import sys
@@ -13,32 +14,26 @@ hds=[{'User-Agent':'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) 
 {'User-Agent':'Mozilla/5.0 (Windows NT 6.2) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.12 Safari/535.11'},\
 {'User-Agent': 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)'}]
 
-toaddr_file="./toaddr.conf"
-
 def send_email(weather_info_html):
 
-    body = weather_info_html 
-
-    fromaddr = "FROM MAIL ADDR"
-    fromaddr_pw = "MAIL PASSWORD"
-    toaddr = ""
+    # setup to list
+    tolist= ['TO ADDR 1', 'TO ADDR 2']
 
     # login 
+    fromaddr = "YOUR GOOGLE EMAIL ADDR"
+    fromaddr_pw = "PASSWORD"
+
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.starttls()
     server.login(fromaddr, fromaddr_pw)
 
     # make up and send the msg
     msg = MIMEMultipart()
-    msg['Subject'] = "WeaterMail" + "[" + time.strftime("%a, %d %b", time.gmtime()) + "]"
+    msg['Subject'] = "Weather Mail" + "[" + time.strftime("%a, %d %b", time.gmtime()) + "]"
     msg['From'] = fromaddr
-
-    with open(toaddr_file) as f:
-        toaddr_list = f.readlines()
-        for toaddr in toaddr_list:
-            msg['To'] = toaddr
-            msg.attach(MIMEText(body, 'html')) # plain will send plain text
-            server.sendmail(fromaddr, toaddr, msg.as_string())
+    msg['To'] = ", ".join(tolist)
+    msg.attach(MIMEText(weather_info_html, 'html')) # plain will send plain text
+    server.sendmail(fromaddr, tolist, msg.as_string())
 
     # logout
     server.quit()
