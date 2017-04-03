@@ -52,6 +52,7 @@ def weather_notice():
              soup = BeautifulSoup(html.text.encode(html.encoding), "html.parser")
 
              town_info_block = soup.find('div', {'id': 'townWeatherBox'})
+             town_info_block = str(town_info_block)
              send_email(town_info_block)
 
     except Exception as e:
