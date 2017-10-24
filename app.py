@@ -30,10 +30,10 @@ def send_email(weather_info_html):
     # make up and send the msg
     msg = MIMEMultipart()
     msg['Subject'] = "Weather inform" + "[" + time.strftime("%a, %d %b", time.gmtime()) + "]"
-    msg['From'] = fromaddr
+    msg['From'] = FROM_ADDR
     msg['To'] = ", ".join(tolist)
     msg.attach(MIMEText(weather_info_html, 'html')) # plain will send plain text
-    server.sendmail(fromaddr, tolist, msg.as_string())
+    server.sendmail(FROM_ADDR, tolist, msg.as_string())
 
     # logout
     server.quit()
