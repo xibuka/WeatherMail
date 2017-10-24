@@ -2,20 +2,20 @@
 #-*- coding: UTF-8 -*-
 
 import sys
+import os
 import time
 import requests
 from bs4 import BeautifulSoup
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-import argparse
 
 #Some User Agents
 hds=[{'User-Agent':'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'}]
 
-FROM_ADDR=''
-FROM_PASS=''
-TO=''
+FROM_ADDR=os.environ['FROM_ADDR']
+FROM_PASS=os.environ['FROM_PASS']
+TO=os.environ['TO_ADDR']
 
 def send_email(weather_info_html):
 
@@ -58,16 +58,5 @@ def weather_notice():
 
 
 if __name__ == "__main__":
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--to",   help="To email address.")
-    parser.add_argument("--gmail",help="gmail account")
-    parser.add_argument("--pw",   help="password for gmail account ")
-    args = parser.parse_args()
-    args = vars(args) 
-
-    FROM_ADDR=args['gmail']
-    FROM_PASS=args['pw']
-    TO=args['to']
 
     weather_notice()
